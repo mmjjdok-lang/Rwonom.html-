@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rwonom Library - Documentation</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-code: #090d16;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding-bottom: 50px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%);
+            border-bottom: 2px solid var(--border);
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo-icon {
+            font-size: 2.8rem;
+            color: var(--primary);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 8px 18px;
+            border-radius: 16px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        header h1 span {
+            color: var(--primary);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p.section-desc {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        /* Code Box */
+        .code-box {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            position: relative;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+        }
+
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            text-align: left;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Lua Syntax Highlighting Colors */
+        .keyword { color: #ff7b72; font-weight: 600; }  
+        .function { color: #d2a8ff; }                  
+        .string { color: #a5d6ff; }                    
+        .number { color: #79c0ff; }                    
+        .comment { color: #8b949e; font-style: italic; } 
+        .variable { color: #ffa657; }                  
+        .property { color: #7ee787; }                  
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 50px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <div class="logo-icon"><i class="fa-solid fa-code"></i></div>
+            <h1>Rwonom <span>Library</span></h1>
+        </div>
+        <p>توثيق الأنظمة والأساليب البرمجية المنفصلة لمكتبة الواجهات</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. Splash Screen -->
+        <section>
+            <h2><i class="fa-solid fa-spinner"></i> 1. شاشة التحميل (Splash Screen)</h2>
+            <p class="section-desc">شاشة البداية المنفصلة التي تنتظر حتى تنتهي قبل بناء النافذة الرئيسية.</p>
+            <div class="code-box">
+                <div class="code-header">
+                    <span>splash.lua</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                </div>
+                <pre><code><span class="keyword">local</span> <span class="variable">splash</span> = <span class="variable">Library</span>.<span class="function">Splash</span>({
+    <span class="property">Text</span> = <span class="string">"اسم شعارك"</span>, 
+    <span class="property">Font</span> = <span class="string">"Bangers"</span>, 
+    <span class="property">Color</span> = <span class="string">"Cyan"</span>,
+    <span class="property">BackgroundColor</span> = <span class="string">"Dark"</span>, 
+    <span class="property">Size</span> = <span class="number">200</span>, 
+    <span class="property">TextSize</span> = <span class="number">40</span>,
+})
+<span class="variable">splash</span>:<span class="function">Wait</span>()</code></pre>
+            </div>
+        </section>
+
+        <!-- 2. Window & Tags -->
+        <section>
+            <h2><i class="fa-solid fa-window-maximize"></i> 2. النافذة الرئيسية والوسم (Window & Tag)</h2>
+            <p class="section-desc">إنشاء النافذة الأساسية للسكربت مع تحديد الوسم وإصدار النسخة.</p>
+            <div class="code-box">
+                <div class="code-header">
+                    <span>window.lua</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                </div>
+                <pre><code><span class="keyword">local</span> <span class="variable">Window</span> = <span class="variable">Library</span>.<span class="function">CreateWindow</span>({
+    <span class="property">Title</span> = <span class="string">"الواجهة الاحترافية"</span>, 
+    <span class="property">Icon</span> = <span class="string">"home"</span>, 
+    <span class="property">Theme</span> = <span class="string">"Green"</span>,
+    <span class="property">ToggleKey</span> = <span class="variable">Enum</span>.<span class="variable">KeyCode</span>.<span class="variable">RightShift</span>,
+})
+<span class="variable">Window</span>:<span class="function">Tag</span>({ <span class="property">Title</span> = <span class="string">"v2.0"</span>, <span class="property">Color</span> = <span class="string">"Blue"</span> })</code></pre>
+            </div>
+        </section>
+
+        <!-- 3. Sections & Tabs -->
+        <section>
+            <h2><i class="fa-solid fa-folder-open"></i> 3. الأقسام والتبويبات (Sections & Tabs)</h2>
+            <p class="section-desc">إنشاء التبويبات الداخلية والأقسام لتنظيم العناصر.</p>
+            <div class="code-box">
+                <div class="code-header">
+                    <span>tabs.lua</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                </div>
+                <pre><code><span class="variable">Window</span>:<span class="function">Section</span>(<span class="string">"الرئيسي"</span>)
+<span class="keyword">local</span> <span class="variable">Main</span> = <span class="variable">Window</span>:<span class="function">CreateTab</span>(<span class="string">"الرئيسية"</span>, <span class="string">"home"</span>)
+<span class="variable">Main</span>:<span class="function">CreateSection</span>(<span class="string">"عناصر أساسية"</span>)</code></pre>
+            </div>
+        </section>
+
+        <!-- 4. Buttons -->
+        <section>
+            <h2><i class="fa-solid fa-hand-pointer"></i> 4. الأزرار (Buttons)</h2>
+            <p class="section-desc">إضافة زر تفاعلي مع إشعار عند الضغط.</p>
+            <div class="code-box">
+                <div class="code-header">
+                    <span>button.lua</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                </div>
+                <pre><code><span class="variable">Main</span>:<span class="function">CreateButton</span>(<span class="string">"زر"</span>, <span class="string">"وصف"</span>, <span class="keyword">function</span>() 
+    <span class="variable">Library</span>.<span class="function">Notify</span>(<span class="string">"تم"</span>, <span class="string">"ضغطت"</span>, <span class="keyword">nil</span>, <span class="number">3</span>, <span class="string">"success"</span>) 
+<span class="keyword">end</span>)</code></pre>
+            </div>
+        </section>
+
+        <!-- 5. Toggles -->
+        <section>
+            <h2><i class="fa-solid fa-toggle-on"></i> 5. خيارات التفعيل والمربعات (Toggles & Checkboxes)</h2>
+            <p class="section-desc">مفاتيح التفعيل العادية ومربعات الاختيار المخصصة.</p>
+            <div class="code-box">
+                <div class="code-header">
+                    <span>toggles.lua</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                </div>
+                <pre><code><span class="variable">Main</span>:<span class="function">CreateToggle</span>({ <span class="property">Name</span> = <span class="string">"تفعيل"</span>, <span class="property">Default</span> = <span class="keyword">false</span>, <span class="property">Flag</span> = <span class="string">"enabled"</span>, <span class="property">Callback</span> = <span class="variable">print</span> })
+<span class="variable">Main</span>:<span class="function">CreateToggle</span>({ <span class="property">Name</span> = <span class="string">"مربع"</span>, <span class="property">Type</span> = <span class="string">"Checkbox"</span>, <span class="property">Callback</span> = <span class="variable">print</span> })</code></pre>
+            </div>
+        </section>
+
+        <!-- 6. Sliders -->
+        <section>
+            <h2><i class="fa-solid fa-sliders"></i> 6. المنزلقات (Sliders)</h2>
+            <p class="section-desc">التحكم بالقيم العددية والسرعات.</p>
+            <div class="code-box">
+                <div class="code-header">
+                    <span>slider.lua</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                </div>
+                <pre><code><span class="variable">Main</span>:<span class="function">CreateSlider</span>(<span class="string">"السرعة"</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">16</span>, <span class="number">1</span>, <span class="variable">print</span>)</code></pre>
+            </div>
+        </section>
+
+        <!-- 7. Dropdowns -->
+        <section>
+            <h2><i class="fa-solid fa-list-dropdown"></i> 7. القوائم المنسدلة (Dropdowns)</h2>
+            <p class="section-desc">القوائم الفردية والمتعددة للاختيار منها.</p>
+            <div class="code-box">
+                <div class="code-header">
+                    <span>dropdowns.lua</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                </div>
+                <pre><code><span class="variable">Main</span>:<span class="function">CreateDropdown</span>(<span class="string">"قائمة"</span>, { <span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span> }, <span class="variable">print</span>)
+<span class="variable">Main</span>:<span class="function">CreateMultiDropdown</span>(<span class="string">"متعدد"</span>, { <span class="string">"X"</span>, <span class="string">"Y"</span>, <span class="string">"Z"</span> }, <span class="variable">print</span>, { <span class="string">"X"</span> })</code></pre>
+            </div>
+        </section>
+
+        <!-- 8. Keybind -->
+        <section>
+            <h2><i class="fa-solid fa-keyboard"></i> 8. الاختصارات (Keybinds)</h2>
+            <p class="section-desc">ربط الأوامر بمفاتيح لوحة المفاتيح.</p>
+            <div class="code-box">
+                <div class="code-header">
+                    <span>keybind.lua</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                </div>
+                <pre><code><span class="variable">Main</span>:<span class="function">CreateKeybind</span>(<span class="string">"مفتاح"</span>, <span class="variable">Enum</span>.<span class="variable">KeyCode</span>.<span class="variable">F</span>, <span class="keyword">function</span>() 
+    <span class="function">print</span>(<span class="string">"F"</span>) 
+<span class="keyword">end</span>)</code></pre>
+            </div>
+        </section>
+
+        <!-- 9. Notes, Labels & Paragraphs -->
+        <section>
+            <h2><i class="fa-solid fa-note-sticky"></i> 9. الملاحظات والنصوص (Notes, Labels & Paragraphs)</h2>
+            <p class="section-desc">إضافة الملاحظات الملونة، النصوص التوضيحية، والفقرات الإرشادية.</p>
+            <div class="code-box">
+                <div class="code-header">
+                    <span>texts.lua</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                </div>
+                <pre><code><span class="variable">Main</span>:<span class="function">CreateNote</span>(<span class="string">"ملاحظة زرقاء"</span>, <span class="string">"Blue"</span>)
+<span class="variable">Main</span>:<span class="function">CreateNote</span>(<span class="string">"ملاحظة سوداء"</span>, <span class="string">"Dark"</span>)
+<span class="variable">Main</span>:<span class="function">CreateLabel</span>(<span class="string">"نص بسيط"</span>)
+<span class="variable">Main</span>:<span class="function">CreateParagraph</span>(<span class="string">"عنوان"</span>, <span class="string">"نص طويل يوضح شي معين"</span>, <span class="string">"info"</span>)</code></pre>
+            </div>
+        </section>
+
+        <!-- 10. Progress & Code -->
+        <section>
+            <h2><i class="fa-solid fa-code"></i> 10. شريط التحميل وعرض الأكواد (Progress & Code)</h2>
+            <p class="section-desc">أشرطة التقدم وعرض المقتطفات البرمجية.</p>
+            <div class="code-box">
+                <div class="code-header">
+                    <span>progress_code.lua</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                </div>
+                <pre><code><span class="variable">Main</span>:<span class="function">CreateProgress</span>(<span class="string">"التحميل"</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">40</span>)
+<span class="variable">Main</span>:<span class="function">CreateCode</span>(<span class="string">"مثال"</span>, <span class="string">"print('hello')"</span>)</code></pre>
+            </div>
+        </section>
+
+        <!-- 11. Dialogs -->
+        <section>
+            <h2><i class="fa-solid fa-message"></i> 11. النوافذ المنبثقة (Dialogs)</h2>
+            <p class="section-desc">عرض نوافذ الحوار والتأكيد للمستخدم.</p>
+            <div class="code-box">
+                <div class="code-header">
+                    <span>dialog.lua</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                </div>
+                <pre><code><span class="variable">Window</span>:<span class="function">Dialog</span>({
+    <span class="property">Title</span> = <span class="string">"تنبيه"</span>, 
+    <span class="property">Content</span> = <span class="string">"هل تريد المتابعة؟"</span>, 
+    <span class="property">Icon</span> = <span class="string">"info"</span>,
+    <span class="property">Buttons</span> = {
+        { <span class="property">Title</span> = <span class="string">"نعم"</span>, <span class="property">Variant</span> = <span class="string">"Primary"</span>, <span class="property">Callback</span> = <span class="keyword">function</span>() <span class="keyword">end</span> },
+        { <span class="property">Title</span> = <span class="string">"لا"</span>, <span class="property">Variant</span> = <span class="string">"Secondary"</span> },
+    },
+})</code></pre>
+            </div>
+        </section>
+
+        <!-- 12. Config Management -->
+        <section>
+            <h2><i class="fa-solid fa-floppy-disk"></i> 12. إدارة الإعدادات (Save & Load Config)</h2>
+            <p class="section-desc">حفظ واسترجاع إعدادات العناصر التي تحتوي على Flags تلقائياً.</p>
+            <div class="code-box">
+                <div class="code-header">
+                    <span>config.lua</span>
+                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                </div>
+                <pre><code><span class="variable">Window</span>:<span class="function">SaveConfig</span>(<span class="string">"default"</span>)   <span class="comment">-- يحفظ كل العناصر اللي لها Flag</span>
+<span class="variable">Window</span>:<span class="function">LoadConfig</span>(<span class="string">"default"</span>)</code></pre>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Code copied successfully! ✓</div>
+
+    <footer>
+        <p>All rights reserved &copy; 2026 - Rwonom Library</p>
+    </footer>
+
+    <script>
+        function playClickSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.08);
+                
+                gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.08);
+            } catch (e) {}
+        }
+
+        function copyCode(button) {
+            playClickSound();
+            const codeBox = button.closest('.code-box');
+            const codeText = codeBox.querySelector('code').innerText;
+
+            navigator.clipboard.writeText(codeText).then(() => {
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                button.classList.add('copied');
+
+                const toast = document.getElementById('toast');
+                toast.innerText = "Code copied successfully! ✓";
+                toast.classList.add('show');
+
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('copied');
+                    toast.classList.remove('show');
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy code');
+            });
+        }
+    </script>
+</body>
+</html>
